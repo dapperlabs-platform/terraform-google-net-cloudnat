@@ -20,10 +20,22 @@ variable "addresses" {
   default     = []
 }
 
+variable "config_enable_dynamic_port_allocation" {
+  description = "Enable Dynamic Port Allocation"
+  type        = bool
+  default     = true
+}
+
 variable "config_min_ports_per_vm" {
   description = "Minimum number of ports allocated to a VM from this NAT config."
   type        = number
-  default     = 64
+  default     = 1024
+}
+
+variable "config_max_ports_per_vm" {
+  description = "Maximum number of ports allocated to a VM from this NAT config."
+  type        = number
+  default     = 65536
 }
 
 variable "config_source_subnets" {
@@ -35,7 +47,7 @@ variable "config_source_subnets" {
 variable "config_enable_endpoint_independent_mapping" {
   description = "Enables endpoint independent mapping"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "config_timeouts" {
