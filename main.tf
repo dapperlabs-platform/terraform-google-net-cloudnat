@@ -42,7 +42,9 @@ resource "google_compute_router_nat" "nat" {
   nat_ip_allocate_option              = length(var.addresses) > 0 ? "MANUAL_ONLY" : "AUTO_ONLY"
   source_subnetwork_ip_ranges_to_nat  = var.config_source_subnets
   min_ports_per_vm                    = var.config_min_ports_per_vm
-  enable_endpoint_independent_mapping = var.config_enable_endpoint_independent_mapping
+  max_ports_per_vm                    = var.config_enable_dynamic_port_allocation ? var.config_max_ports_per_vm : null
+  enable_dynamic_port_allocation      = var.config_enable_dynamic_port_allocation
+  enable_endpoint_independent_mapping = !var.config_enable_dynamic_port_allocation && var.config_enable_endpoint_independent_mapping
   icmp_idle_timeout_sec               = var.config_timeouts.icmp
   udp_idle_timeout_sec                = var.config_timeouts.udp
   tcp_established_idle_timeout_sec    = var.config_timeouts.tcp_established
