@@ -120,3 +120,23 @@ variable "subnetworks" {
   }))
   default = []
 }
+
+variable "rules" {
+  description = "List of rules associated with this NAT."
+  type = list(object({
+    description   = optional(string)
+    match         = string
+    source_ips    = optional(list(string))
+    source_ranges = optional(list(string))
+  }))
+  default  = []
+  nullable = false
+  validation {
+    condition = alltrue([
+      for r in var.rules :
+      r.source_ips != null
+    ])
+
+    error_message = "All rules must specify either source_ips or source_ranges."
+  }
+}
